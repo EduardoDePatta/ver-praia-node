@@ -1,0 +1,40 @@
+{
+  "name": "ver-praia-back-node",
+  "version": "0.1.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "tsnd --respawn -r tsconfig-paths/register --pretty --transpile-only ./src/server.ts",
+    "prod": "SET NODE_ENV=production && tsnd --respawn -r tsconfig-paths/register --pretty --transpile-only ./src/server.ts",
+    "build": "rm -rf dist && tsc && tsc-alias && copyfiles -u 1 src/**/*.{sql,hbs,css,svg,md,docx} dist/"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bluebird": "^3.7.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "node-cron": "^3.0.3",
+    "pg": "^8.13.0",
+    "pg-monitor": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.42",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.10.2",
+    "@types/node-cron": "^3.0.11",
+    "@types/pg": "^8.11.10",
+    "copyfiles": "^2.4.1",
+    "dotenv": "^16.4.5",
+    "pg-promise": "^11.9.1",
+    "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.2"
+  }
+}
