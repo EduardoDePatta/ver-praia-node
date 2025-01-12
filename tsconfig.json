@@ -16,5 +16,5 @@
       "#/*": ["./src/*"]
     }
   },
-  "exclude": ["ecosystem.config.js", "dist", "createUser.js"]
+  "exclude": ["ecosystem.config.js", "dist"]
 }
