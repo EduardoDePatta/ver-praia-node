@@ -16,11 +16,7 @@ const postBalneabilidade = catchAsync(async (req: HTTP.Req<void, void, void>, tx
     tx
   })
 
-  return {
-    status: 201,
-    message: 'Dados de balneabilidade salvos com sucesso',
-    data: response
-  }
+  return response
 }, true)
 
 export { postBalneabilidade }
