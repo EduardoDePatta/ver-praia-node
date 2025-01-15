@@ -17,7 +17,7 @@ export const catchAsync = <T>(fn: AsyncFunction<T>, useTransaction: boolean = fa
         res.status(200).json(data)
       }
     } catch (error) {
-      console.log('🚀 ~ return ~ error:', error)
+      console.error('🚀 ~ return ~ error:', error)
       next(error)
     }
   }

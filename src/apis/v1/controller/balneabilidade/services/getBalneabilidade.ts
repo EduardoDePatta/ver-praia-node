@@ -10,7 +10,6 @@ const getBalneabilidade = catchAsync(async () => {
     query: findLastBalneabilidadeQuery,
     params: []
   })
-  console.log('🚀 ~ getBalneabilidade ~ ponto_analise:', ponto_analise)
 
   if (!ponto_analise) {
     throw new HttpException(400, 'Não foi possível recuperar os dados da ultima análise')
