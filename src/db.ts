@@ -1,10 +1,5 @@
 import environments from './environments'
 import pgPromise from 'pg-promise'
-import bluebird from 'bluebird'
-
-const initialOptions = {
-  promiseLib: bluebird
-}
 
 const config = {
   user: environments.DB_USER,
@@ -14,7 +9,7 @@ const config = {
   port: environments.DB_PORT
 }
 
-const pgp = pgPromise(initialOptions)
+const pgp = pgPromise()
 const db = pgp(config)
 
 export default db

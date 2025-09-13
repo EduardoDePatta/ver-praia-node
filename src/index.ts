@@ -19,7 +19,7 @@ if (environments.NODE_ENV !== 'production') {
 
 app.use('/api/v1', routerV1)
 
-app.all('*', (req: Request, _res: Response, next: NextFunction) => {
+app.use((req: Request, _res: Response, next: NextFunction) => {
   next(new HttpException(500, `Can't find ${req.originalUrl} on this server!`))
 })
 

@@ -15,10 +15,10 @@ export function initializeCronJobs() {
       console.log(`[Cron Job] Success!`)
     } catch (error) {
       console.log('🚀 ~ cron.schedule ~ error:', error)
-      if (error instanceof Error) {
-        console.error(`[Cron Job] Error: ${error.message}`)
-      } else if (error instanceof AxiosError) {
+      if (error instanceof AxiosError) {
         console.error(`[Cron Job] Error: ${error.request.data.message}`)
+      } else if (error instanceof Error) {
+        console.error(`[Cron Job] Error: ${error.message}`)
       } else {
         console.error('[Cron Job] Error: ', error)
       }
