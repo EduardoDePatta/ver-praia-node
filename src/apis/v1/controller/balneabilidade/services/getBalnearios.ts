@@ -3,10 +3,11 @@ import { catchAsync } from '../../../../../helpers/catchAsync'
 import { HTTP } from '../../../../../helpers/HttpRequest'
 import { executeQuery } from '../../../infra'
 import { PontoAnalise } from '../interfaces'
+import { Balneario } from '../interfaces/Balneario'
 import { findLastBalneabilidadeQuery } from '../sql'
 
 const getBalnearios = catchAsync(
-  async (req: HTTP.Req<void, { codigoMunicipio: string }, void>) => {
+  async (req: HTTP.Req<void, { codigoMunicipio: string }, void>): Promise<Balneario[]> => {
     const { codigoMunicipio } = req.params
 
     if (!codigoMunicipio) {
@@ -42,7 +43,7 @@ const getBalnearios = catchAsync(
       )
     }
 
-    const balnearios = filtrados.map((p) => {
+    const balnearios: Balneario[] = filtrados.map((p) => {
       const ultimaAnalise = [...(p.ANALISES || [])].sort((a, b) => {
         const [da, ma, ya] = a.DATA.split('/')
         const [db, mb, yb] = b.DATA.split('/')
@@ -63,3 +64,4 @@ const getBalnearios = catchAsync(
 )
 
 export { getBalnearios }
+
