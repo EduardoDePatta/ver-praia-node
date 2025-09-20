@@ -1,0 +1,1 @@
+SELECT * FROM verpraia.find_praia_propria_mais_proxima($1, $2::float8, $3::float8, $4::float8);

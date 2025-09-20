@@ -1,4 +1,3 @@
-// validators.ts
 import { ExtraParamError } from "../../exceptions";
 
 export function validateAllExtraParams<T extends object>(param: T): void {

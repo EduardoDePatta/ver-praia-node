@@ -1,5 +1,6 @@
 export interface Balneario {
-  balneario: string
   codigoBalneario: number
+  balneario: string
+  pontoNome: string
   proprio: boolean
 }

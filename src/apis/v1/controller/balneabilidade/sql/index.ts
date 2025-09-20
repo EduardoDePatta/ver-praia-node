@@ -5,11 +5,13 @@ const findLastBalneabilidadeQuery = getQuery(__dirname, 'findLastBalneabilidadeQ
 const findBalnearioByMunicipioQuery = getQuery(__dirname, 'findBalnearioByMunicipioQuery.sql')
 const findMunicipiosQuery = getQuery(__dirname, 'findMunicipiosQuery.sql')
 const findBalnearioDetalheByCodigoQuery = getQuery(__dirname, 'findBalnearioDetalheByCodigoQuery.sql')
+const findPraiaPropriaMaisProximaQuery = getQuery(__dirname, 'findPraiaPropriaMaisProximaQuery.sql')
 
 export {
   createBalneabilidadeQuery,
   findLastBalneabilidadeQuery,
   findBalnearioByMunicipioQuery,
   findMunicipiosQuery,
-  findBalnearioDetalheByCodigoQuery
+  findBalnearioDetalheByCodigoQuery,
+  findPraiaPropriaMaisProximaQuery
 }
