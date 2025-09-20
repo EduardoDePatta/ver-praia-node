@@ -1,67 +1,35 @@
+import environments from '../../../../../environments'
 import { HttpException } from '../../../../../exceptions'
 import { catchAsync } from '../../../../../helpers/catchAsync'
 import { HTTP } from '../../../../../helpers/HttpRequest'
+import { cache } from '../../../../../LocalCache/LocalCache'
 import { executeQuery } from '../../../infra'
-import { PontoAnalise } from '../interfaces'
 import { Balneario } from '../interfaces/Balneario'
-import { findLastBalneabilidadeQuery } from '../sql'
+import { findBalnearioByMunicipioQuery } from '../sql'
 
 const getBalnearios = catchAsync(
   async (req: HTTP.Req<void, { codigoMunicipio: string }, void>): Promise<Balneario[]> => {
     const { codigoMunicipio } = req.params
-
     if (!codigoMunicipio) {
-      throw new HttpException(
-        400,
-        '[Balneário] - Parâmetro `codigoMunicipio` é obrigatório'
-      )
+      throw new HttpException(400, '[Balneário] - Parâmetro `codigoMunicipio` é obrigatório')
     }
 
-    const { ponto_analise } = await executeQuery<{ ponto_analise: PontoAnalise[] }>({
-      method: 'one',
-      query: findLastBalneabilidadeQuery,
-      params: []
-    })
+    const key = `balnearios:${String(codigoMunicipio).trim()}`
 
-    if (!ponto_analise) {
-      throw new HttpException(
-        400,
-        'Não foi possível recuperar os dados da ultima análise'
-      )
-    }
+    return cache.getOrLoad<Balneario[]>(key, async () => {
+      const rows = await executeQuery<Balneario[]>({
+        method: 'many',
+        query: findBalnearioByMunicipioQuery,
+        params: [String(codigoMunicipio).trim()]
+      })
 
-    const filtrados = ponto_analise.filter(
-      (p) =>
-        String(p.MUNICIPIO_COD_IBGE).trim() ===
-        String(codigoMunicipio).trim()
-    )
-
-    if (!filtrados.length) {
-      throw new HttpException(
-        404,
-        '[Balnearios] - Nenhum balneário encontrado para esse município.'
-      )
-    }
-
-    const balnearios: Balneario[] = filtrados.map((p) => {
-      const ultimaAnalise = [...(p.ANALISES || [])].sort((a, b) => {
-        const [da, ma, ya] = a.DATA.split('/')
-        const [db, mb, yb] = b.DATA.split('/')
-        const d1 = new Date(+ya, +ma - 1, +da).getTime()
-        const d2 = new Date(+yb, +mb - 1, +db).getTime()
-        return d2 - d1
-      })[0]
-
-      return {
-        codigoBalneario: Number(p.CODIGO),
-        balneario: p.BALNEARIO,
-        proprio: ultimaAnalise?.CONDICAO === 'PRÓPRIO'
+      if (!rows?.length) {
+        throw new HttpException(404, '[Balnearios] - Nenhum balneário encontrado para esse município.')
       }
-    })
 
-    return balnearios
+      return rows
+    }, environments.CACHE_TTL)
   }
 )
 
 export { getBalnearios }
-

@@ -13,5 +13,6 @@ export default {
   BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME || '',
   BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD || '',
   IMA_URL: process.env.IMA_URL || '',
-  API_URL: process.env.API_URL || ''
+  API_URL: process.env.API_URL || '',
+  CACHE_TTL: Number(process.env.CACHE_TTL) ?? 43200
 }

@@ -1,34 +1,26 @@
+import environments from '../../../../../environments'
 import { HttpException } from '../../../../../exceptions'
 import { catchAsync } from '../../../../../helpers/catchAsync'
+import { cache } from '../../../../../LocalCache/LocalCache'
 import { executeQuery } from '../../../infra'
-import { PontoAnalise } from '../interfaces'
 import { Municipio } from '../interfaces/Municipio'
-import { findLastBalneabilidadeQuery } from '../sql'
+import { findMunicipiosQuery } from '../sql'
+
+const key = 'municipios:all'
 
 const getMunicipios = catchAsync(async (): Promise<Municipio[]> => {
-  const { ponto_analise } = await executeQuery<{ ponto_analise: PontoAnalise[] }>({
-    method: 'one',
-    query: findLastBalneabilidadeQuery,
-    params: []
-  })
+  return cache.getOrLoad<Municipio[]>(key, async () => {
+    const rows = await executeQuery<Municipio[]>({
+      method: 'many',
+      query: findMunicipiosQuery
+    })
 
-  if (!ponto_analise.length) {
-    throw new HttpException(400, '[Municipios] - Não foi possível recuperar os dados da ultima análise.')
-  }
+    if (!rows?.length) {
+      throw new HttpException(400, '[Municipios] - Não foi possível recuperar os dados da ultima análise.')
+    }
 
-  const municipios: Municipio[] = Array.from(
-    new Map(
-      ponto_analise.map(item => [
-        item.MUNICIPIO_COD_IBGE,
-        {
-          municipio: item.MUNICIPIO,
-          codigoMunicipio: Number(item.MUNICIPIO_COD_IBGE)
-        }
-      ])
-    ).values()
-  );
-
-  return municipios
+    return rows
+  }, environments.CACHE_TTL)
 })
 
 export { getMunicipios }

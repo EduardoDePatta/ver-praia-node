@@ -5,10 +5,12 @@ import environments from './environments'
 import { HttpException } from './exceptions'
 import errorMiddleware from './middlewares/errorMiddleware'
 import { routerV1 } from './apis/v1'
+import helmet from 'helmet'
 
 const app = express()
 
 app.use(cors())
+app.use(helmet())
 
 app.use(express.json({ limit: '40kb' }))
 app.use(express.urlencoded({ extended: false, limit: '40kb ' }))

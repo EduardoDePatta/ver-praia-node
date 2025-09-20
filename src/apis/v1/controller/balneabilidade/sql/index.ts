@@ -2,5 +2,14 @@ import { getQuery } from '../../../../../helpers/getQuery'
 
 const createBalneabilidadeQuery = getQuery(__dirname, 'createBalneabilidadeQuery.sql')
 const findLastBalneabilidadeQuery = getQuery(__dirname, 'findLastBalneabilidadeQuery.sql')
+const findBalnearioByMunicipioQuery = getQuery(__dirname, 'findBalnearioByMunicipioQuery.sql')
+const findMunicipiosQuery = getQuery(__dirname, 'findMunicipiosQuery.sql')
+const findBalnearioDetalheByCodigoQuery = getQuery(__dirname, 'findBalnearioDetalheByCodigoQuery.sql')
 
-export { createBalneabilidadeQuery, findLastBalneabilidadeQuery }
+export {
+  createBalneabilidadeQuery,
+  findLastBalneabilidadeQuery,
+  findBalnearioByMunicipioQuery,
+  findMunicipiosQuery,
+  findBalnearioDetalheByCodigoQuery
+}
